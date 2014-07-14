@@ -52,6 +52,7 @@ public class BookSheetComposer extends SelectorComposer<Component>{
 		sheetBox.setModel(new ListModelList<String>(sheetNames));
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Listen("onSelect = #sheetBox")
 	public void selectSheet(SelectEvent event) {
 		spreadsheet.setSelectedSheet((String)event.getSelectedObjects().iterator().next());

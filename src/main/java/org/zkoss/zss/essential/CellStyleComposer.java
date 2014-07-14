@@ -65,6 +65,7 @@ public class CellStyleComposer extends SelectorComposer<Component> {
 		refreshCellStyle(pos.getRow(), pos.getColumn());
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void refreshCellStyle(int row, int col) {
 		Range range = Ranges.range(ss.getSelectedSheet(), row, col);
 

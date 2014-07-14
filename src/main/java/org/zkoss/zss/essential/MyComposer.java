@@ -26,7 +26,7 @@ public class MyComposer extends SelectorComposer<Component> {
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);  //wire variables and event listeners
 		//access components after calling super.doAfterCompose()
-		//ss.setSrc("/WEB-INF/books/startzss.xlsx");
+		//import and load the template excel file "/WEB-INF/books/startzss.xlsx"
 		Importer importer = Importers.getImporter();
 		Book book = importer.imports(getFile(), "sample");
 		ss.setBook(book);

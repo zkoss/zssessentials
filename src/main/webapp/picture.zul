@@ -8,9 +8,9 @@
 			<vlayout width="350px" vflex="1">
 				<groupbox hflex="1">
 					<caption label="Picture" />
-					<listbox id="pictureListbox">
+					<listbox id="pictureListbox" checkmark="true">
 						<listhead>
-							<listheader label="ID" width="50px"/>
+							<listheader label="ID" width="100px"/>
 							<listheader label="Row" width="50px" />
 							<listheader label="Column" width="50px"/>
 							<listheader label="Last Row" />

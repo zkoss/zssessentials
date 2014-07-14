@@ -21,7 +21,10 @@ import org.zkoss.zss.ui.Spreadsheet;
 public class BookSeriesComposer extends SelectorComposer<Component> {
 	
 	@Wire
-	Spreadsheet ss;
+	Spreadsheet profile;
+	
+	@Wire
+	Spreadsheet resume;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -32,7 +35,8 @@ public class BookSeriesComposer extends SelectorComposer<Component> {
 		Book book2 = importer.imports(getFile("/WEB-INF/books/profile.xlsx"),"profile.xlsx");
 		//can load more books...
 		
-		ss.setBook(book1);
+		resume.setBook(book1);
+		profile.setBook(book2);
 		
 		BookSeriesBuilder.getInstance().buildBookSeries(new Book[]{book1,book2});
 	}

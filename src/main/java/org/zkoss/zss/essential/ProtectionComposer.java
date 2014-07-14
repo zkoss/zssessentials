@@ -54,9 +54,25 @@ public class ProtectionComposer extends SelectorComposer<Component>{
 	public void toggleProtection(){
 		Sheet selectedSheet = ss.getSelectedSheet();
 		if (selectedSheet.isProtected()){
-			Ranges.range(selectedSheet).protectSheet(null);
+			Ranges.range(selectedSheet).unprotectSheet("mypass");
 		}else{
-			Ranges.range(selectedSheet).protectSheet("s");
+			Ranges.range(selectedSheet).protectSheet("mypass",
+					true, //allowSelectingLockedCells
+					true, //allowSelectingUnlockedCells,  
+					false, //allowFormattingCells
+					false, //allowFormattingColumns
+					false, //allowFormattingRows 
+					false, //allowInsertColumns 
+					false, //allowInsertRows
+					false, //allowInsertingHyperlinks
+					false, //allowDeletingColumns
+					false, //boolean allowDeletingRows
+					false, //allowSorting
+					false, //allowFiltering 
+					false, //allowUsingPivotTables
+					false, //drawingObjects
+					false  //boolean scenarios
+			);
 		}
 		updateSheetProtectionStatus(selectedSheet);
 	}
