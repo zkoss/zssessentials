@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zss</groupId>
 	<artifactId>zssessentials</artifactId>
-	<version>3.5.0-Eval</version>
+	<version>3.6.0-Eval</version>
 	<properties>
-		<zk.version>7.0.2-Eval</zk.version>
+		<zk.version>7.0.3-Eval</zk.version>
 		<commons-io>1.3.1</commons-io>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-${project.version}-${maven.build.timestamp}</packname>
@@ -55,11 +55,6 @@ How to release the project, run maven:
 			<version>${commons-io}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.zkoss.zss</groupId>
-			<artifactId>zss</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>3.1.4.RELEASE</version>
@@ -70,12 +65,7 @@ How to release the project, run maven:
 			<version>2.2.2</version>
 		</dependency>
 
- 		<!-- ZSS EE dependencies-->
-		<dependency>
-			<groupId>org.zkoss.zk</groupId>
-			<artifactId>zkex</artifactId>
-			<version>${zk.version}</version>
-		</dependency>		 
+ 		<!-- ZSS EE dependencies-->		 
 		<dependency>
 			<groupId>org.zkoss.zss</groupId>
 			<artifactId>zsspdf</artifactId>
