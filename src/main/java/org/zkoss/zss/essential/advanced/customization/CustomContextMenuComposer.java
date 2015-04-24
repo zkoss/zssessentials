@@ -1,0 +1,31 @@
+package org.zkoss.zss.essential.advanced.customization;
+
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.*;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zss.ui.Spreadsheet;
+import org.zkoss.zss.ui.event.CellMouseEvent;
+import org.zkoss.zul.Menupopup;
+
+/**
+ * This class demonstrate how to open a new custom context menu.
+ * @author Hawk
+ *
+ */
+@SuppressWarnings("serial")
+public class CustomContextMenuComposer extends SelectorComposer<Component> {
+
+	@Wire
+	private Spreadsheet ss;
+	@Wire
+	private Menupopup myContext;
+
+	@Listen("onCellRightClick = #ss")
+	public void doContext(CellMouseEvent event) {
+		myContext.open(event.getX(), event.getY());
+	}
+}
+
+
+
