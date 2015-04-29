@@ -2,11 +2,12 @@ package org.zkoss.zss.essential.events;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.*;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.*;
 import org.zkoss.zss.api.*;
 import org.zkoss.zss.ui.Spreadsheet;
-import org.zkoss.zss.ui.event.CellSelectionEvent;
+import org.zkoss.zss.ui.event.*;
 import org.zkoss.zul.*;
 
 /**
@@ -14,7 +15,7 @@ import org.zkoss.zul.*;
  * @author Hawk
  *
  */
-public class RangeDialogComposer extends SelectorComposer<Component>{
+public class RangeSelectionComposer extends SelectorComposer<Component>{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,12 +25,21 @@ public class RangeDialogComposer extends SelectorComposer<Component>{
 	private Window dialog;
 	
 	private CellSelectionListener cellSelectionListener = new CellSelectionListener();
-	
+	private NoEditListener noEditListener = new NoEditListener();
 	
 	@Listen("onClick = #open")
 	public void open(){
 		dialog.setVisible(true);
 		ss.addEventListener("onCellSelection", cellSelectionListener);
+		ss.addEventListener("onStartEditing", noEditListener);
+		ss.focus();
+		Textbox rangeBox  = (Textbox)dialog.getFellow("rangeBox");
+		rangeBox.setValue("");
+		//forbid users doing anything
+		ss.setShowFormulabar(false);
+		ss.setShowToolbar(false);
+		ss.setShowContextMenu(false);
+		ss.setShowSheetbar(false);
 	}
 	
 	@Listen("onCellSelection = #dialog")
@@ -47,17 +57,18 @@ public class RangeDialogComposer extends SelectorComposer<Component>{
 				
 	}
 	
-	@Listen("onOpen = #dialog")
-	public void openDialog(Event event){
-		Textbox rangeBox  = (Textbox)dialog.getFellow("rangeBox");
-		rangeBox.setValue("");
-	}
 	
-	@Listen("onClose = #dialog")
+	@Listen("onClick = #dialog #ok")
 	public void hideDialog(Event event){
+		//could validate user selection
 		dialog.setVisible(false);
 		event.stopPropagation();
 		ss.removeEventListener("onCellSelection", cellSelectionListener); //reduce traffic to a server
+		ss.removeEventListener("onStartEditing", noEditListener); //back to normal
+		ss.setShowFormulabar(true);
+		ss.setShowToolbar(true);
+		ss.setShowContextMenu(true);
+		ss.setShowSheetbar(true);
 	}
 	
 	class CellSelectionListener implements EventListener<CellSelectionEvent>{
@@ -66,7 +77,16 @@ public class RangeDialogComposer extends SelectorComposer<Component>{
 			Events.postEvent(dialog, event);
 		}
 	}
+	
+	class NoEditListener implements EventListener<StartEditingEvent>{
+
+		@Override
+		public void onEvent(StartEditingEvent event) throws Exception {
+			event.cancel();			
+		}
+	}
 }
+
 
 
 
