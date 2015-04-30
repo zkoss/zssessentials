@@ -31,7 +31,6 @@ public class RangeSelectionComposer extends SelectorComposer<Component>{
 	public void open(){
 		dialog.setVisible(true);
 		ss.addEventListener("onCellSelection", cellSelectionListener);
-		ss.addEventListener("onStartEditing", noEditListener);
 		ss.focus();
 		Textbox rangeBox  = (Textbox)dialog.getFellow("rangeBox");
 		rangeBox.setValue("");
@@ -40,6 +39,7 @@ public class RangeSelectionComposer extends SelectorComposer<Component>{
 		ss.setShowToolbar(false);
 		ss.setShowContextMenu(false);
 		ss.setShowSheetbar(false);
+		ss.addEventListener("onStartEditing", noEditListener);
 	}
 	
 	@Listen("onCellSelection = #dialog")
@@ -53,8 +53,6 @@ public class RangeSelectionComposer extends SelectorComposer<Component>{
 		}else{
 			rangeBox.setValue(Ranges.getAreaRefString(event.getSheet(), event.getArea()));
 		}
-		
-				
 	}
 	
 	
@@ -64,11 +62,12 @@ public class RangeSelectionComposer extends SelectorComposer<Component>{
 		dialog.setVisible(false);
 		event.stopPropagation();
 		ss.removeEventListener("onCellSelection", cellSelectionListener); //reduce traffic to a server
-		ss.removeEventListener("onStartEditing", noEditListener); //back to normal
+		//recover editing actions back
 		ss.setShowFormulabar(true);
 		ss.setShowToolbar(true);
 		ss.setShowContextMenu(true);
 		ss.setShowSheetbar(true);
+		ss.removeEventListener("onStartEditing", noEditListener); //back to normal
 	}
 	
 	class CellSelectionListener implements EventListener<CellSelectionEvent>{
