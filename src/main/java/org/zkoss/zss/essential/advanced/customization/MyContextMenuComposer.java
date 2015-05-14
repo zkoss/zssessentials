@@ -1,12 +1,15 @@
 package org.zkoss.zss.essential.advanced.customization;
 
+import java.util.HashMap;
+
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.*;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zss.ui.Spreadsheet;
-import org.zkoss.zss.ui.event.CellMouseEvent;
+import org.zkoss.zss.ui.*;
+import org.zkoss.zss.ui.event.*;
+import org.zkoss.zss.ui.event.Events;
 import org.zkoss.zul.*;
 
 /**
@@ -43,6 +46,15 @@ public class MyContextMenuComposer extends SelectorComposer<Component> {
 	public void hideDialog(Event event){
 		dialog.setVisible(false);
 		event.stopPropagation();
+	}
+	
+	@Listen("onClick = #clear")
+	public void newBook() throws Exception{
+		CellMouseEvent cellMouseEvent = (CellMouseEvent)myContext.getAttribute("event");
+		Spreadsheet ss = (Spreadsheet)cellMouseEvent.getTarget();
+		AuxActionEvent event = new AuxActionEvent(Events.ON_AUX_ACTION, ss, ss.getSelectedSheet(), 
+				AuxAction.CLEAR_ALL.toString(), ss.getSelection(), new HashMap());
+		((EventListener)ss.getUserActionManager()).onEvent(event);
 	}
 }
 

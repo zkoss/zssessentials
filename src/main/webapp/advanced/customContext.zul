@@ -8,6 +8,7 @@
 			<menupopup id="myContext">
 				<menuitem id="display" label="Display Information" />
 				<menuitem id="open" label="Open Dialog" />
+				<menuitem id="clear" label="Clear All" />
 			</menupopup>
 			<window id="dialog" title="My Dialog" mode="overlapped" closable="true"
 				visible="false">
