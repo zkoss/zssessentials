@@ -49,7 +49,7 @@ public class MyContextMenuComposer extends SelectorComposer<Component> {
 	}
 	
 	@Listen("onClick = #clear")
-	public void newBook() throws Exception{
+	public void clear() throws Exception{
 		CellMouseEvent cellMouseEvent = (CellMouseEvent)myContext.getAttribute("event");
 		Spreadsheet ss = (Spreadsheet)cellMouseEvent.getTarget();
 		AuxActionEvent event = new AuxActionEvent(Events.ON_AUX_ACTION, ss, ss.getSelectedSheet(), 
