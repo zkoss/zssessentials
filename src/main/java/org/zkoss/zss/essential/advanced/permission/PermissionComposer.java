@@ -2,6 +2,8 @@ package org.zkoss.zss.essential.advanced.permission;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zss.ui.Spreadsheet;
@@ -12,16 +14,24 @@ public class PermissionComposer extends SelectorComposer<Component> {
 	private Spreadsheet ss;
 	@Wire("a")
 	private A logoutLink;
+	private Role.Name loginRole;
+	
+	@Override
+	public ComponentInfo doBeforeCompose(Page page, Component parent,
+			ComponentInfo compInfo) {
+		loginRole = (Role.Name)Executions.getCurrent().getSession().getAttribute("role");
+		//prevent unauthorized access, we can use Initiator to achieve the same effect
+		if (loginRole == null){
+			Executions.getCurrent().sendRedirect("login.zul"); 
+			return null;
+		}
+		return super.doBeforeCompose(page, parent, compInfo);
+	}
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
-		Role.Name role = (Role.Name)Executions.getCurrent().getSession().getAttribute("role");
-		if (role == null){
-			Executions.getCurrent().sendRedirect("login.zul"); //prevent unauthorized access
-		}else{
-			logoutLink.setLabel(logoutLink.getLabel()+" - "+role.name());
-			AuthorityService.applyPermission(ss, role); //apply the role's permission
-		}
+		logoutLink.setLabel(logoutLink.getLabel()+" - "+loginRole.name());
+		AuthorityService.applyPermission(ss, loginRole); //apply the role's permission
 	}
 }
