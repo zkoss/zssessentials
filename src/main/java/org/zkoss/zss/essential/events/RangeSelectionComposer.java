@@ -11,7 +11,7 @@ import org.zkoss.zss.ui.event.*;
 import org.zkoss.zul.*;
 
 /**
- * An example of CellSelectionEvent.
+ * A use case of CellSelectionEvent.
  * @author Hawk
  *
  */
@@ -27,6 +27,9 @@ public class RangeSelectionComposer extends SelectorComposer<Component>{
 	private CellSelectionListener cellSelectionListener = new CellSelectionListener();
 	private NoEditListener noEditListener = new NoEditListener();
 	
+	/**
+	 * When opening the dialog to select a range, we can hide edit UI and cancel onStartEditing event to forbid users editing.
+	 */
 	@Listen("onClick = #open")
 	public void open(){
 		dialog.setVisible(true);
@@ -77,6 +80,11 @@ public class RangeSelectionComposer extends SelectorComposer<Component>{
 		}
 	}
 	
+	/**
+	 * Prevent users from editing cells.
+	 * @author hawk
+	 *
+	 */
 	class NoEditListener implements EventListener<StartEditingEvent>{
 
 		@Override
