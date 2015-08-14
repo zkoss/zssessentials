@@ -16,7 +16,10 @@ import org.zkoss.zss.ui.Spreadsheet;
 public class AuthorityService {
 
 	static private Map<Role.Name, Role> roles = new HashMap<Role.Name, Role>();
-	
+
+	/**
+	 * Initialize role-permission settings. 
+	 */
 	static{
 		Role owner = new Role(Role.Name.OWNER);
 		Role editor = new Role(Role.Name.EDITOR);
@@ -79,6 +82,9 @@ public class AuthorityService {
 			}
 		});
 		
+		for (Permission p : editor.getPermissions()){
+			viewer.assign(p);
+		}
 		viewer.assign(new Permission(NAME.TOOLBAR, false) {
 			
 			@Override
@@ -100,20 +106,15 @@ public class AuthorityService {
 				ss.setShowContextMenu(approved);
 			}
 		});
-		viewer.assign(new Permission(NAME.SHEETBAR, false) {
-
-			@Override
-			void apply(Spreadsheet ss) {
-				ss.setShowSheetbar(approved);
-			}
-		});
 		
 		viewer.assign(new Permission(NAME.EDIT, false) {
 			
 			@Override
 			void apply(Spreadsheet ss) {
-				Ranges.range(ss.getSelectedSheet()).protectSheet("", 
+				for (int i=0 ; i < ss.getBook().getNumberOfSheets() ; i++){
+					Ranges.range(ss.getBook().getSheetAt(i)).protectSheet("", 
 					approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved);
+				}
 			}
 		});
 		roles.put(Role.Name.OWNER, owner);

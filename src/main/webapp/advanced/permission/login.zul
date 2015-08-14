@@ -12,7 +12,7 @@
 			<vlayout>
 				<div>owner  - all operations allowed</div>
 				<div>editor - can edit but no sheet operations allowed</div>
-				<div>viewer - view first sheet only</div>
+				<div>viewer - view only</div>
 			</vlayout>
 		</window>
 	</hbox>
