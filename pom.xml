@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zss</groupId>
 	<artifactId>zssessentials</artifactId>
-	<version>3.8.0-Eval</version>
+	<version>3.8.2-Eval</version>
 	<properties>
 		<zk.version>7.0.5.2-Eval</zk.version>
 		<commons-io>1.3.1</commons-io>
@@ -44,6 +44,11 @@ How to release the project, run maven:
 	</pluginRepositories>
 	<dependencies>
 		<dependency>
+			<groupId>org.zkoss.zss</groupId>
+			<artifactId>zssex</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+		<dependency>
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zkplus</artifactId>
 			<version>${zk.version}</version>
@@ -71,16 +76,14 @@ How to release the project, run maven:
 			<artifactId>zsspdf</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.zkoss.zss</groupId>
 			<artifactId>zsshtml</artifactId>
 			<version>${project.version}</version>
 		</dependency>		
-		<dependency>
-			<groupId>org.zkoss.zss</groupId>
-			<artifactId>zssex</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		 -->
+
 		 <!-- -->
 	</dependencies>
 	<build>
