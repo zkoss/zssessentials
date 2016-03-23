@@ -38,7 +38,7 @@ public class MyContextMenuComposer extends SelectorComposer<Component> {
 		dialog.setVisible(true);
 		dialog.setPosition("center");
 		CellMouseEvent cellMouseEvent = (CellMouseEvent)myContext.getAttribute("event");
-		String message = "Selection: " + ((Spreadsheet)cellMouseEvent.getTarget()).getSelection().asString();
+		String message = ((Spreadsheet)cellMouseEvent.getTarget()).getSelection().asString();
 		content.setValue(message);
 	}
 	

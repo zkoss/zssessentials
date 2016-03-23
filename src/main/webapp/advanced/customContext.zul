@@ -1,20 +1,10 @@
+<?component name="contextmenu" macroURI="myContextMenu.zul" inline="true"?>
 <zk>
-	<window apply="org.zkoss.zss.essential.advanced.customization.CustomContextMenuComposer"
+	<div apply="org.zkoss.zss.essential.advanced.customization.CustomContextMenuComposer"
 		width="100%" height="100%">
 		<spreadsheet id="ss" width="100%" height="100%" showFormulabar="true"
 			showContextMenu="false" showToolbar="true" showSheetbar="true" maxVisibleRows="100"
 			maxVisibleColumns="20" src="/WEB-INF/books/blank.xlsx" />
-		<div apply="org.zkoss.zss.essential.advanced.customization.MyContextMenuComposer">
-			<menupopup id="myContext">
-				<menuitem id="display" label="Display Information" />
-				<menuitem id="open" label="Open Dialog" />
-				<menuitem id="clear" label="Clear All" />
-			</menupopup>
-			<window id="dialog" title="My Dialog" mode="overlapped" closable="true"
-				visible="false">
-				Selection:
-				<label id="content"></label>
-			</window>
-		</div>
-	</window>
+		<contextmenu/>
+	</div>
 </zk>
