@@ -1,0 +1,8 @@
+<zk>
+			<window id="findDialog" title="Find" mode="overlapped" visible="false" position="right,center"
+				apply="org.zkoss.zss.essential.advanced.customization.FindDialogComposer">
+				Find what: <textbox id="keywordBox"/>
+				<button id="find" label="Find Next"/>
+				<button id="close" label="Close"/>
+			</window>
+</zk>
