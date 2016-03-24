@@ -1,8 +1,29 @@
 <zk>
-			<window id="findDialog" title="Find" mode="overlapped" visible="false" position="right,center"
-				apply="org.zkoss.zss.essential.advanced.customization.FindDialogComposer">
-				Find what: <textbox id="keywordBox"/>
-				<button id="find" label="Find Next"/>
-				<button id="close" label="Close"/>
-			</window>
+<style>
+	.block{
+		margin:10px;
+	}
+</style>
+	<window id="findDialog" title="Find" mode="overlapped"
+		visible="true" position="right,center" contentStyle="padding: 5px"
+		apply="org.zkoss.zss.essential.advanced.customization.FindDialogComposer">
+		<hlayout>
+			<vlayout sclass="block">
+				Find what:
+				<textbox id="keywordBox" width="180px"/>
+				<separator height="20px"/>
+				<hlayout>
+				Within: 
+				<combobox id="scopeBox" width="80px" onCreate="self.selectedIndex=0" readonly="true" >
+					<comboitem label="Sheet" value="sheet" />
+					<comboitem label="Book" value="book"/>
+				</combobox>
+				</hlayout>
+			</vlayout>
+			<vlayout sclass="block">
+				<button id="find" label="Find Next" width="80px"/>
+				<button id="close" label="Close" width="80px"/>
+			</vlayout>
+		</hlayout>
+	</window>
 </zk>
