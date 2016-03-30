@@ -1,7 +1,5 @@
 package org.zkoss.zss.essential.advanced.customization;
 
-import java.awt.geom.Area;
-
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.MouseEvent;
@@ -16,12 +14,12 @@ import org.zkoss.zss.api.model.CellData.CellType;
 import org.zkoss.zss.api.model.Sheet;
 import org.zkoss.zss.ui.Spreadsheet;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 /**
  * @author Hawk
- *
  */
 @SuppressWarnings("serial")
 public class FindDialogComposer extends SelectorComposer<Component> {
@@ -32,35 +30,40 @@ public class FindDialogComposer extends SelectorComposer<Component> {
 	@Wire
 	protected Combobox scopeBox;
 	
-	//TODO fill the combobox with a model
-	protected String[] scope = {"sheet", "book"};
+	protected enum SearchScope {Sheet, Book};
+	
+	@Override
+	public void doAfterCompose(Component comp) throws Exception {
+		super.doAfterCompose(comp);
+		ListModelList<SearchScope> scopeList = new ListModelList<SearchScope>(SearchScope.values());
+		scopeBox.setModel(scopeList);
+		scopeList.addToSelection(scopeList.get(0));
+	}
 	
 	@Listen("onClick=#find; onOK=#keywordBox")
 	public void find(Event event) {
 		Spreadsheet ss = (Spreadsheet)findDialog.getAttribute(Spreadsheet.class.toString());
 		Range targetCell = null;
-		if (scopeBox.getSelectedItem().getValue().equals(scope[0])){
+		if (scopeBox.getSelectedItem().getValue().equals(SearchScope.Sheet)){
 			targetCell = findNext(ss.getSelectedSheet(), ss.getSelection());
 		}else{
 			targetCell = findNext(ss.getBook(), ss.getSelectedSheet(), ss.getSelection());
 		}
-		jumpToCell(ss, targetCell);
+		focusToCell(ss, targetCell);
 	}
 
 
-	protected void jumpToCell(Spreadsheet ss, Range targetCell) {
+	protected void focusToCell(Spreadsheet ss, Range targetCell) {
 		ss.setSelectedSheet(targetCell.getSheetName());
 		ss.focusTo(targetCell.getRow(), targetCell.getColumn());
 	}
 	
 	protected Range findNext(Book book, Sheet startingSheet, AreaRef stargingSelection) {
-		Sheet sheet = startingSheet;
 		AreaRef selection = stargingSelection;
 		Range foundCell = null;
-		int index = book.getSheetIndex(sheet);
+		int index = book.getSheetIndex(startingSheet);
 		while (index < book.getNumberOfSheets()){
-			sheet = book.getSheetAt(index);
-			foundCell = findNext(sheet, selection);
+			foundCell = findNext(book.getSheetAt(index), selection);
 			if (selection.getRow() == foundCell.getRow() &&
 				selection.getColumn() == foundCell.getColumn()){ //nothing matched, move to next sheet
 				index++;

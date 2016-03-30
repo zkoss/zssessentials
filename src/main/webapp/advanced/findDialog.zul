@@ -14,9 +14,10 @@
 				<separator height="20px"/>
 				<hlayout>
 				Within: 
-				<combobox id="scopeBox" width="80px" onCreate="self.selectedIndex=0" readonly="true" >
-					<comboitem label="Sheet" value="sheet" />
-					<comboitem label="Book" value="book"/>
+				<combobox id="scopeBox" width="80px" readonly="true">
+					<template name="model">
+						<comboitem label="${each}" value="${each}"/>
+					</template>
 				</combobox>
 				</hlayout>
 			</vlayout>
