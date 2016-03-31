@@ -13,12 +13,18 @@
 				<textbox id="keywordBox" width="180px"/>
 				<separator height="20px"/>
 				<hlayout>
-				Within: 
-				<combobox id="scopeBox" width="80px" readonly="true">
-					<template name="model">
-						<comboitem label="${each}" value="${each}"/>
-					</template>
-				</combobox>
+					<hlayout>
+						Within:
+						<combobox id="scopeBox" width="80px" readonly="true">
+							<template name="model">
+								<comboitem label="${each}" value="${each}" />
+							</template>
+						</combobox>
+					</hlayout>
+					<vlayout>
+					<checkbox id="caseSensitiveBox" label="Match case"/>
+					<checkbox id="entireCellBox" label="Find entire cell only"/>
+					</vlayout>
 				</hlayout>
 			</vlayout>
 			<vlayout sclass="block">

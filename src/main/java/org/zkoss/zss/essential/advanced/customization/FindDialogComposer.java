@@ -6,13 +6,13 @@ import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zss.api.AreaRef;
 import org.zkoss.zss.api.Range;
 import org.zkoss.zss.api.Ranges;
 import org.zkoss.zss.api.model.Book;
 import org.zkoss.zss.api.model.CellData.CellType;
 import org.zkoss.zss.api.model.Sheet;
 import org.zkoss.zss.ui.Spreadsheet;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
@@ -29,6 +29,10 @@ public class FindDialogComposer extends SelectorComposer<Component> {
 	protected Textbox keywordBox;
 	@Wire
 	protected Combobox scopeBox;
+	@Wire
+	protected Checkbox caseSensitiveBox;
+	@Wire
+	protected Checkbox entireCellBox;
 	
 	protected enum SearchScope {Sheet, Book};
 	
@@ -45,9 +49,9 @@ public class FindDialogComposer extends SelectorComposer<Component> {
 		Spreadsheet ss = (Spreadsheet)findDialog.getAttribute(Spreadsheet.class.toString());
 		Range targetCell = null;
 		if (scopeBox.getSelectedItem().getValue().equals(SearchScope.Sheet)){
-			targetCell = findNext(ss.getSelectedSheet(), ss.getSelection());
+			targetCell = findNext(ss.getSelectedSheet(), Ranges.range(ss.getSelectedSheet(), ss.getSelection()));
 		}else{
-			targetCell = findNext(ss.getBook(), ss.getSelectedSheet(), ss.getSelection());
+			targetCell = findNext(ss.getBook(), ss.getSelectedSheet(), Ranges.range(ss.getSelectedSheet(), ss.getSelection()));
 		}
 		focusToCell(ss, targetCell);
 	}
@@ -58,43 +62,41 @@ public class FindDialogComposer extends SelectorComposer<Component> {
 		ss.focusTo(targetCell.getRow(), targetCell.getColumn());
 	}
 	
-	protected Range findNext(Book book, Sheet startingSheet, AreaRef stargingSelection) {
-		AreaRef selection = stargingSelection;
-		Range foundCell = null;
-		int index = book.getSheetIndex(startingSheet);
+	protected Range findNext(Book book, Sheet currentSheet, Range currentSelection) {
+		Range foundCell = currentSelection; 
+		int index = book.getSheetIndex(currentSheet);
 		while (index < book.getNumberOfSheets()){
-			foundCell = findNext(book.getSheetAt(index), selection);
-			if (selection.getRow() == foundCell.getRow() &&
-				selection.getColumn() == foundCell.getColumn()){ //nothing matched, move to next sheet
+			Range resultCell = findNext(book.getSheetAt(index), currentSelection);
+			if (resultCell.getSheet().equals(currentSelection.getSheet()) &&
+				currentSelection.getRow() == resultCell.getRow() &&
+				currentSelection.getColumn() == resultCell.getColumn()){ //nothing matched, move to next sheet
 				index++;
-				selection = new AreaRef(0, 0, 0, 0);
 			}else{
-				return foundCell;
+				foundCell = resultCell;
+				break;
 			}
 		}
-		
 		return foundCell;
 	}
 	
 	/**
-	 * If nothing found, return current selected cell.
+	 * Start finding from the next cell by rows of the current selection. If nothing found, return the current selection.
+	 * When reach the end of a sheet, do not find from the beginning.
 	 * @param sheet
-	 * @param selection
+	 * @param currentSelection
 	 * @return
 	 */
-	protected Range findNext(Sheet sheet, AreaRef selection) {
+	protected Range findNext(Sheet sheet, Range currentSelection) {
 		int lastColumn = Ranges.range(sheet).getDataRegion().getLastColumn();
 		int lastRow = Ranges.range(sheet).getDataRegion().getLastRow();
 		String keyword = keywordBox.getValue().trim();
-		//starting from current selection position
-		int row = selection.getRow();
-		int column = selection.getColumn()+1; 
-		// by rows
+		int row = getStartingRow(sheet, currentSelection);
+		int column = getStartingColumn(sheet, currentSelection); 
 		while (row <= lastRow){
 			while (column <= lastColumn){
 				Range cell = Ranges.range(sheet, row, column);
 				if (cell.getCellData().getType() == CellType.STRING){
-					if (cell.getCellData().getEditText().toLowerCase().contains(keyword)){
+					if (match(cell.getCellData().getEditText(), keyword)){
 						return cell;
 					}
 				}
@@ -103,7 +105,32 @@ public class FindDialogComposer extends SelectorComposer<Component> {
 			column = 0;
 			row++;
 		}
-		return Ranges.range(sheet, selection);
+		return currentSelection;
+	}
+	
+	protected int getStartingRow(Sheet sheet, Range selection){
+		return sheet.equals(selection.getSheet()) ? selection.getRow() : 0; 
+	}
+	/**
+	 * Start from the next cell by rows in the same sheet
+	 * @param sheet
+	 * @param selection
+	 * @return
+	 */
+	protected int getStartingColumn(Sheet sheet, Range selection){
+		return sheet.equals(selection.getSheet()) ? selection.getColumn()+1 : 0; 
+	}
+
+	protected boolean match(String cellEditText, String keyword) {
+		String content = cellEditText;
+		if (!caseSensitiveBox.isChecked()){
+			content = content.toLowerCase();
+		}
+		if (entireCellBox.isChecked()){
+			return content.equals(keyword);
+		}else{
+			return content.contains(keyword);
+		}
 	}
 
 	@Listen("onClick = #close")
