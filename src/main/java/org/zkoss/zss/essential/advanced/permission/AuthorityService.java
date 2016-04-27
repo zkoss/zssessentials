@@ -5,10 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueues;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zss.api.Ranges;
 import org.zkoss.zss.essential.advanced.permission.Permission.NAME;
 import org.zkoss.zss.ui.AuxAction;
 import org.zkoss.zss.ui.Spreadsheet;
+import org.zkoss.zss.ui.event.Events;
+import org.zkoss.zss.ui.event.StartEditingEvent;
 
 /**
  * All permissions are approved by default. We need to specify which is disapproved for each role.
@@ -111,9 +116,25 @@ public class AuthorityService {
 			
 			@Override
 			void apply(Spreadsheet ss) {
-				for (int i=0 ; i < ss.getBook().getNumberOfSheets() ; i++){
-					Ranges.range(ss.getBook().getSheetAt(i)).protectSheet("", 
-					approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved);
+				String shareScope = ss.getBook().getShareScope();
+				if (shareScope == null || shareScope.equals(EventQueues.DESKTOP)){
+					for (int i=0 ; i < ss.getBook().getNumberOfSheets() ; i++){
+						Ranges.range(ss.getBook().getSheetAt(i)).protectSheet("", 
+								approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved, approved);
+					}
+				}else{
+					/*
+					 * When a book is shared, protecting sheets will affect other collaborators.
+					 * Need to avoid editing in the component level.
+					 */
+					ss.addEventListener(Events.ON_START_EDITING, new EventListener<StartEditingEvent>() {
+						@Override
+						public void onEvent(StartEditingEvent event) throws Exception {
+							event.cancel();
+							Clients.showNotification("It's read-only", Clients.NOTIFICATION_TYPE_WARNING, null,
+									"middle_center", 500);
+						}
+					});
 				}
 			}
 		});
