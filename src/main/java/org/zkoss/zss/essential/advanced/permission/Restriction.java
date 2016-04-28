@@ -3,39 +3,34 @@ package org.zkoss.zss.essential.advanced.permission;
 import org.zkoss.zss.ui.Spreadsheet;
 
 /**
- * An approval of a mode of access to a resource.
- * 
+ * A restriction for a Spreadsheet feature.
+ *  This class should be immutable to avoid being changed for security concern. 
  * @author hawk
  *
  */
-abstract public class Permission implements Comparable<Permission> {
-	enum NAME{TOOLBAR, FORMULABAR, CONTEXT_MENU, SHEETBAR, 
+abstract public class Restriction implements Comparable<Restriction> {
+	public enum NAME{TOOLBAR, FORMULABAR, CONTEXT_MENU, SHEETBAR, 
 		SHEET_ADD, SHEET_DELETE, SHEET_MOVE, SHEET_RENAME, SHEET_HIDE, SHEET_COPY, SHEET_PROTECT,
 		EDIT}
 	
 	protected NAME name;
-	protected boolean approved;
 	
 	public NAME getName() {
 		return name;
 	}
 	
-	public boolean isApproved() {
-		return approved;
-	}
 	
-	public Permission(NAME name, boolean approved){
+	public Restriction(NAME name){
 		this.name = name;
-		this.approved = approved;
 	}
 	
 	/**
-	 * Apply this permission on the resource
+	 * Apply the feature restriction on a Spreadsheet
 	 */
 	abstract void apply(Spreadsheet ss);
 	
 	@Override
-	public int compareTo(Permission p) {
+	public int compareTo(Restriction p) {
 		return this.name.compareTo(p.getName());
 	}
 }

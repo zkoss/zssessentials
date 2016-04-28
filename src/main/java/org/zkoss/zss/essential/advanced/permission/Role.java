@@ -1,10 +1,12 @@
 package org.zkoss.zss.essential.advanced.permission;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Role is a job function or title which defines an authority level.
+ * Role is a job function or title which defines an authority level. One role could have one or more restrictions.
+ * This class should be immutable to avoid being changed for security concern.
  * @author hawk
  *
  */
@@ -13,22 +15,22 @@ public class Role {
 	public enum Name {OWNER, EDITOR, VIEWER};
 	
 	private Name name;
-	private Set<Permission> permissions = new TreeSet<Permission>();
+	private Set<Restriction> restrictions = new TreeSet<Restriction>();
 	
 	public Role(Name name){
 		this.name = name;
 	}
 	
-	public void assign(Permission p){
-		permissions.add(p);
-	}
-
 	public Name getName() {
 		return name;
 	}
+	
+	void assign(Restriction p){
+		restrictions.add(p);
+	}
 
-	public Set<Permission> getPermissions() {
-		return permissions;
+	Set<Restriction> getRestrictions() {
+		return Collections.unmodifiableSet(restrictions);
 	}
 	
 	

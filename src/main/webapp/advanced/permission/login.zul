@@ -5,7 +5,7 @@
 			Login as
 			<combobox readonly="true">
 				<template name="model">
-				<comboitem label="${each}" value="${each}"></comboitem>
+				<comboitem label="${each.name}" value="${each}"></comboitem>
 				</template>
 			</combobox>
 			<button label="Login"/>

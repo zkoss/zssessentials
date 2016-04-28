@@ -14,12 +14,12 @@ public class PermissionComposer extends SelectorComposer<Component> {
 	private Spreadsheet ss;
 	@Wire("a")
 	private A logoutLink;
-	private Role.Name loginRole;
+	private Role loginRole;
 	
 	@Override
 	public ComponentInfo doBeforeCompose(Page page, Component parent,
 			ComponentInfo compInfo) {
-		loginRole = (Role.Name)Executions.getCurrent().getSession().getAttribute("role");
+		loginRole = (Role)Executions.getCurrent().getSession().getAttribute("role");
 		//prevent unauthorized access, we can use Initiator to achieve the same effect
 		if (loginRole == null){
 			Executions.getCurrent().sendRedirect("login.zul"); 
@@ -31,7 +31,7 @@ public class PermissionComposer extends SelectorComposer<Component> {
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
-		logoutLink.setLabel(logoutLink.getLabel()+" - "+loginRole.name());
-		AuthorityService.applyPermission(ss, loginRole); //apply the role's permission
+		logoutLink.setLabel(logoutLink.getLabel()+" - "+loginRole.getName());
+		AuthorityService.applyRestriction(ss, loginRole); //apply the role's permission
 	}
 }
