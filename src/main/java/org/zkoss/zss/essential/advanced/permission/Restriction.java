@@ -29,6 +29,11 @@ abstract public class Restriction implements Comparable<Restriction> {
 	 */
 	abstract void apply(Spreadsheet ss);
 	
+	/**
+	 * clear the feature restriction on a Spreadsheet
+	 */
+	abstract void clear(Spreadsheet ss);
+	
 	@Override
 	public int compareTo(Restriction p) {
 		return this.name.compareTo(p.getName());
