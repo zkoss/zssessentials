@@ -1,8 +1,8 @@
 package org.zkoss.zss.essential.advanced.permission;
 
 import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueues;
@@ -20,7 +20,7 @@ import org.zkoss.zss.ui.event.StartEditingEvent;
  */
 public class AuthorityService {
 
-	static private TreeSet<Role> roles = new TreeSet<Role>();
+	static private List<Role> roles = new LinkedList<Role>();
 	 // Define roles here
 	public static final Role OWNER = new Role(Role.Name.OWNER);
 	public static final Role EDITOR = new Role(Role.Name.EDITOR);
@@ -212,8 +212,8 @@ public class AuthorityService {
 		roles.add(VIEWER);
 	}
 	
-	static public Set<Role> getPredefinedRoles(){
-		return Collections.unmodifiableSet(roles);
+	static public List<Role> getPredefinedRoles(){
+		return Collections.unmodifiableList(roles);
 	}
 	
 	static public void applyRestriction(Spreadsheet ss, Role role){
