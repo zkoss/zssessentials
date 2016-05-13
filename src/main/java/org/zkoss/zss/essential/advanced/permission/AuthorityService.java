@@ -33,6 +33,7 @@ public class AuthorityService {
 					"middle_center", 500);
 		}
 	};
+	private static String CTRL_KEY = "ctrlKey";
 
 	 // Initialize role - restriction relationship
 	static{
@@ -187,6 +188,8 @@ public class AuthorityService {
 					 * Need to avoid editing at the component level.
 					 */
 					ss.addEventListener(Events.ON_START_EDITING, CANCEL_EDIT_LISTENER);
+					ss.setAttribute(CTRL_KEY, ss.getCtrlKeys());
+					ss.setCtrlKeys("");
 				}
 			}
 
@@ -203,6 +206,10 @@ public class AuthorityService {
 					 * Need to avoid editing at the component level.
 					 */
 					ss.removeEventListener(Events.ON_START_EDITING, CANCEL_EDIT_LISTENER);
+					String ctrlKeys = (String)ss.getAttribute(CTRL_KEY);
+					if (ctrlKeys!= null){
+						ss.setCtrlKeys(ctrlKeys);
+					}
 				}
 				
 			}
