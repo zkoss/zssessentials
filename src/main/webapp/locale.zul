@@ -1,0 +1,36 @@
+<zk>
+current locale : <label id="localeLabel" />
+<combobox id="localeBox" readonly="true" onSelect="selectLocale()"/>
+<spreadsheet id="ss"  src="/WEB-INF/books/dateFormat.xlsx" maxVisibleRows="100" maxVisibleColumns="20" width="100%" 
+		height="90%" 
+		showContextMenu="true" showSheetbar="true" showToolbar="true" showFormulabar="true" />
+	<zscript><![CDATA[
+	import org.zkoss.util.Locales;
+	import org.zkoss.poi.ss.usermodel.*;
+	import java.text.*;
+	import java.util.*;
+	
+	Locale[] allLocales = Locale.getAvailableLocales();
+	Arrays.sort(allLocales, new Comparator(){
+		public int compare(Object o1, Object o2){
+			return o1.toString().compareTo(o2.toString());
+		}
+	});
+	ListModelList localeModel = new ListModelList(allLocales);
+	localeBox.setModel(localeModel);
+	
+	public void selectLocale(){
+		Locale locale = (Locale)localeModel.getSelection().iterator().next();
+		ZssContext.setThreadLocal(new ZssContext(locale, -1));
+		showLocale(locale);
+		Ranges.range(ss.getSelectedSheet()).notifyChange();
+	}
+	
+	public void showLocale(Locale l) {
+		localeLabel.setValue(l.toString());
+	}
+	
+	showLocale(ZssContext.getCurrent().getLocale());
+	
+]]></zscript>
+</zk>
