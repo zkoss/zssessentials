@@ -6,7 +6,14 @@
 
 	<description><![CDATA[My ZK Application]]></description>
 	<display-name>zssessentials</display-name>
-
+	<servlet>
+		<servlet-name>importServlet</servlet-name>
+		<servlet-class>org.zkoss.zss.essential.ImportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>importServlet</servlet-name>
+		<url-pattern>/import</url-pattern>
+	</servlet-mapping>
 	<!-- ZK -->
 	<listener>
 		<description>ZK listener for session cleanup</description>
