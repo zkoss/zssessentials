@@ -1,29 +1,18 @@
 package org.zkoss.zss.essential.advanced;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.WebApps;
+import org.zkoss.zk.ui.*;
 import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
-import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.select.annotation.*;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zss.api.CellOperationUtil;
-import org.zkoss.zss.api.Importer;
-import org.zkoss.zss.api.Importers;
-import org.zkoss.zss.api.PostImport;
-import org.zkoss.zss.api.Range;
-import org.zkoss.zss.api.Ranges;
-import org.zkoss.zss.api.model.Book;
-import org.zkoss.zss.api.model.CellStyle.Alignment;
-import org.zkoss.zss.api.model.Sheet;
+import org.zkoss.zss.api.*;
+import org.zkoss.zss.api.model.*;
 import org.zkoss.zss.ui.Spreadsheet;
 import org.zkoss.zul.Checkbox;
 
 /**
- * This class demonstrate @PostImport.
+ * This class demonstrate @PostImport which can reduce the importing time for the massive formulas
  * @author Hawk
  *
  */
@@ -55,21 +44,24 @@ public class PostImportComposer extends SelectorComposer<Component> implements P
 
 	@Override
 	public void process(Book book) {
-		initializeMassiveData(book.getSheetAt(0));
+		initializeMassiveFormulas(book.getSheetAt(0));
 	}
 
 	/**
 	 * Increase row and column here, you will see bigger time difference between post importing and non-post importing. 
 	 * @param sheet
 	 */
-	private void initializeMassiveData(Sheet sheet){
-		for (int row = 0 ; row < 500 ; row++){
+	private void initializeMassiveFormulas(Sheet sheet){
+		for (int row = 0 ; row < 1500 ; row++){
 			for (int col = 0 ; col < 50 ; col++){
-				Range range = Ranges.range(sheet, row, col);
-				range.setCellEditText("=sum("+row+"+"+col+")");
-				CellOperationUtil.applyFontColor(range, "#"+String.format("%06x",row+col));
-				CellOperationUtil.applyAlignment(range, Alignment.RIGHT);
-				CellOperationUtil.applyBackColor(range, "#808080");
+				String editText; 
+				if (row > 0 ){
+					editText = "=" +Ranges.getCellRefString(row-1, col);
+				}
+				else{
+					editText = ""+(row+col);
+				}
+				Ranges.range(sheet, row, col).setCellEditText(editText);
 			}
 		}
 	}
@@ -86,7 +78,7 @@ public class PostImportComposer extends SelectorComposer<Component> implements P
 	private void loadDirectly() throws IOException{
 		Book book = importer.imports(FILE, "blank");
 		ss.setBook(book);
-		initializeMassiveData(ss.getSelectedSheet());
+		initializeMassiveFormulas(ss.getSelectedSheet());
 	}
 
 	@Listen("onCheck = checkbox")
