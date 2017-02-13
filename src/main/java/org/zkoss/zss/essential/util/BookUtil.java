@@ -1,17 +1,11 @@
 package org.zkoss.zss.essential.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import org.zkoss.lang.SystemException;
 import org.zkoss.zk.ui.WebApps;
-import org.zkoss.zss.api.Exporter;
-import org.zkoss.zss.api.Exporters;
-import org.zkoss.zss.api.Importer;
-import org.zkoss.zss.api.Importers;
-import org.zkoss.zss.api.model.Book;
+import org.zkoss.zss.api.*;
+import org.zkoss.zss.api.model.*;
 import org.zkoss.zss.api.model.Book.BookType;
 
 
@@ -19,13 +13,13 @@ public class BookUtil {
 
 	static public Book newBook(String bookName, BookType type) {
 		try {
-			return newBook0(bookName, type);
+			return loadBlankBook(bookName, type);
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
-	static private Book newBook0(String bookName, BookType type)
+	static private Book loadBlankBook(String bookName, BookType type)
 			throws IOException {
 		
 		Importer importer = Importers.getImporter();
@@ -104,5 +98,12 @@ public class BookUtil {
 			}
 		}
 		return f;
+	}
+	
+	static public Book copySheetToNewBook(String bookName, Sheet sheet){
+		Book newBook = newBook(bookName, BookType.XLSX);
+		Ranges.range(newBook).cloneSheetFrom(sheet.getSheetName(), sheet);
+		Ranges.range(newBook.getSheetAt(0)).deleteSheet();
+		return newBook;
 	}
 }
