@@ -26,10 +26,10 @@ public class IndexComposer extends SelectorComposer<Component> {
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
-		scanZul();
+		generateLinksOfZul();
 	}
 
-	private void scanZul() {
+	private void generateLinksOfZul() {
 		String webRootRealPath = WebApps.getCurrent().getRealPath("/");
 		File webRoot = new File(webRootRealPath);
 	    // list the files using our FileFilter
