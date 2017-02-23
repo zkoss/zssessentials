@@ -66,10 +66,6 @@ public class PostImportComposer extends SelectorComposer<Component> implements P
 		}
 	}
 	
-	private boolean isPostImported() {
-		return Sessions.getCurrent().getAttribute(POST_IMPORT_KEY) != null;
-	}
-	
 	private void loadWithPostImporting() throws IOException{
 		Book book = importer.imports(FILE, "blank", this);
 		ss.setBook(book);
@@ -81,6 +77,10 @@ public class PostImportComposer extends SelectorComposer<Component> implements P
 		initializeMassiveFormulas(ss.getSelectedSheet());
 	}
 
+	private boolean isPostImported() {
+		return Sessions.getCurrent().getAttribute(POST_IMPORT_KEY) != null;
+	}
+	
 	@Listen("onCheck = checkbox")
 	public void togglePostImporting(){
 		if (isPostImported()){
