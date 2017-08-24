@@ -1,5 +1,7 @@
-zssessentials
-=============
+# ZK Spreadsheet Essentials Example
 
-ZK Spreadsheet Essentials
-* The "master" branch contains examples for latest version  
+* The "master" branch contains examples for the latest version
+
+## Run the Project
+1. run `mvn jetty:run` under the project's root folder in a console
+2. visit http://localhost:8080/zssessentials
