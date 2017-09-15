@@ -266,6 +266,7 @@ public class EventsComposer extends SelectorComposer<Component>{
 		StringBuilder info = new StringBuilder();
 		String ref = Ranges.getCellRefString(event.getRow(),event.getColumn());
 		info.append("Stop editing ").append(ref)
+		.append(", current value is "+Ranges.range(event.getSheet(), event.getRow(), event.getColumn()))
 		.append(", editing-value is ").append("\""+event.getEditingValue()+"\"");
 		
 		if(isShowEventInfo(event.getName())){
@@ -289,7 +290,7 @@ public class EventsComposer extends SelectorComposer<Component>{
 		StringBuilder info = new StringBuilder();
 
 		info.append("Cell changes on ").append(Ranges.getAreaRefString(event.getSheet(), event.getArea()));
-		info.append(", first value is \""
+		info.append(", the previous value is \""
 		+Ranges.range(event.getSheet(),event.getArea()).getCellFormatText()+"\"");
 
 		if(isShowEventInfo(event.getName())){
@@ -452,41 +453,41 @@ public class EventsComposer extends SelectorComposer<Component>{
 		//It is just for showing message, event is always listened in this demo.
 		eventFilterModel.setMultiple(true);
 		
-		addEventFilter(Events.ON_START_EDITING,true);
-		addEventFilter(Events.ON_EDITBOX_EDITING,true);
-		addEventFilter(Events.ON_STOP_EDITING,true);
-		addEventFilter(Events.ON_AFTER_CELL_CHANGE,true);
+		enableEventFilter(Events.ON_START_EDITING,true);
+		enableEventFilter(Events.ON_EDITBOX_EDITING,true);
+		enableEventFilter(Events.ON_STOP_EDITING,true);
+		enableEventFilter(Events.ON_AFTER_CELL_CHANGE,true);
 		
-		addEventFilter(Events.ON_CTRL_KEY,true);
+		enableEventFilter(Events.ON_CTRL_KEY,true);
 		
-		addEventFilter(Events.ON_CELL_CLICK,false);
-		addEventFilter(Events.ON_CELL_DOUBLE_CLICK,true);
-		addEventFilter(Events.ON_CELL_RIGHT_CLICK,true);
+		enableEventFilter(Events.ON_CELL_CLICK,false);
+		enableEventFilter(Events.ON_CELL_DOUBLE_CLICK,true);
+		enableEventFilter(Events.ON_CELL_RIGHT_CLICK,true);
 		
-		addEventFilter(Events.ON_HEADER_UPDATE,true);
-		addEventFilter(Events.ON_HEADER_CLICK,true);
-		addEventFilter(Events.ON_HEADER_RIGHT_CLICK,true);
-		addEventFilter(Events.ON_HEADER_DOUBLE_CLICK,true);
+		enableEventFilter(Events.ON_HEADER_UPDATE,true);
+		enableEventFilter(Events.ON_HEADER_CLICK,true);
+		enableEventFilter(Events.ON_HEADER_RIGHT_CLICK,true);
+		enableEventFilter(Events.ON_HEADER_DOUBLE_CLICK,true);
 		
-		addEventFilter(Events.ON_AUX_ACTION,true);
+		enableEventFilter(Events.ON_AUX_ACTION,true);
 		
-		addEventFilter(Events.ON_CELL_FOUCS,false);
-		addEventFilter(Events.ON_CELL_SELECTION,false);
-		addEventFilter(Events.ON_CELL_SELECTION_UPDATE,true);
+		enableEventFilter(Events.ON_CELL_FOUCS,false);
+		enableEventFilter(Events.ON_CELL_SELECTION,false);
+		enableEventFilter(Events.ON_CELL_SELECTION_UPDATE,true);
 		
-		addEventFilter(Events.ON_CELL_FILTER,true);//useless
-		addEventFilter(Events.ON_CELL_VALIDATOR,true);//useless
+		enableEventFilter(Events.ON_CELL_FILTER,true);//useless
+		enableEventFilter(Events.ON_CELL_VALIDATOR,true);//useless
 		
-		addEventFilter(Events.ON_WIDGET_UPDATE,true);
-		addEventFilter(Events.ON_WIDGET_CTRL_KEY,true);
+		enableEventFilter(Events.ON_WIDGET_UPDATE,true);
+		enableEventFilter(Events.ON_WIDGET_CTRL_KEY,true);
 		
-		addEventFilter(Events.ON_AFTER_SHEET_CREATE,true);
-		addEventFilter(Events.ON_AFTER_SHEET_DELETE,true);
-		addEventFilter(Events.ON_AFTER_SHEET_NAME_CHANGE,true);
-		addEventFilter(Events.ON_AFTER_SHEET_ORDER_CHANGE,true);
-		addEventFilter(Events.ON_SHEET_SELECT,true);
+		enableEventFilter(Events.ON_AFTER_SHEET_CREATE,true);
+		enableEventFilter(Events.ON_AFTER_SHEET_DELETE,true);
+		enableEventFilter(Events.ON_AFTER_SHEET_NAME_CHANGE,true);
+		enableEventFilter(Events.ON_AFTER_SHEET_ORDER_CHANGE,true);
+		enableEventFilter(Events.ON_SHEET_SELECT,true);
 		
-		addEventFilter(Events.ON_CELL_HYPERLINK,true);	
+		enableEventFilter(Events.ON_CELL_HYPERLINK,true);
 		
 		eventFilterList.setModel(eventFilterModel);
 
@@ -505,7 +506,7 @@ public class EventsComposer extends SelectorComposer<Component>{
 		Ranges.range(ss.getSelectedSheet(), 2, 4).setCellEditText("Edit Me");
 	}
 	
-	private void addEventFilter(String event,boolean showinfo){
+	private void enableEventFilter(String event, boolean showinfo){
 		if(!eventFilterModel.contains(eventFilterModel)){
 			eventFilterModel.add(event);
 		}
