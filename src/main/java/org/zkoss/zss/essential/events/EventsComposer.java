@@ -52,7 +52,8 @@ public class EventsComposer extends SelectorComposer<Component>{
 	private Listbox eventFilterList;
 	@Wire
 	private Grid infoList;
-	
+	private boolean isUndo = false;
+
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
@@ -74,8 +75,17 @@ public class EventsComposer extends SelectorComposer<Component>{
 		if(isShowEventInfo(event.getName())){
 			addInfo(info.toString());
 		}
+
+		if (isUndoPressed(event)){
+			isUndo = true;
+		}
 	}
-	
+
+	// ctrl + z
+	private boolean isUndoPressed(KeyEvent event) {
+		return event.isCtrlKey() && event.getKeyCode() == 90;
+	}
+
 	@Listen("onCellClick = #ss")
 	public void onCellClick(CellMouseEvent event){
 		StringBuilder info = new StringBuilder();
@@ -290,9 +300,13 @@ public class EventsComposer extends SelectorComposer<Component>{
 		StringBuilder info = new StringBuilder();
 
 		info.append("Cell changes on ").append(Ranges.getAreaRefString(event.getSheet(), event.getArea()));
-		info.append(", the previous value is \""
+		info.append(", value is \""
 		+Ranges.range(event.getSheet(),event.getArea()).getCellFormatText()+"\"");
 
+		if (isUndo){
+			info.append(", changed by Undo");
+			isUndo = false;
+		}
 		if(isShowEventInfo(event.getName())){
 			addInfo(info.toString());
 		}
