@@ -7,4 +7,7 @@
 	<client-config>
 		<debug-js>true</debug-js>
 	</client-config>
+	<language-config>
+		<addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
+	</language-config>
 </zk>
