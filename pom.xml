@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zss</groupId>
 	<artifactId>zssessentials</artifactId>
-	<version>3.9.1-Eval</version>
+	<version>3.9.2-Eval</version>
 	<properties>
 		<zk.version>8.0.4.2-Eval</zk.version>
 		<commons-io>1.3.1</commons-io>
