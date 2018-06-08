@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zkoss.zss</groupId>
 	<artifactId>zssessentials</artifactId>
-	<version>3.9.2-Eval</version>
+	<version>3.9.3-Eval</version>
 	<properties>
-		<zk.version>8.0.4.2-Eval</zk.version>
+		<zk.version>8.0.1.1-Eval</zk.version>
 		<commons-io>1.3.1</commons-io>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-${project.version}-${maven.build.timestamp}</packname>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<packaging>war</packaging>
-	<name>The zssessentials Project</name>
+	<name>The zss essentials Project</name>
 	<description>The project contains example codes of &quot;ZK Spreadsheet Essentials&quot; (http://books.zkoss.org/wiki/ZK%20Spreadsheet%20Essentials/).
 
 How to release the project, run maven:
@@ -77,53 +77,30 @@ How to release the project, run maven:
 			<artifactId>zsspdf</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.zkoss.zss</groupId>
-			<artifactId>zsshtml</artifactId>
-			<version>${project.version}</version>
-		</dependency>		
-		 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
-		 <!-- -->
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
-			<!-- Run with Jetty -->
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.10</version>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.22.v20170606</version>
+				<!--<version>9.4.8.v20171121</version>-->
 				<configuration>
+					<webAppConfig>
+						<contextPath>/${project.artifactId}</contextPath>
+						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+						<!-- no need to scan anything as we're using servlet 2.5 to reduce start-up time-->
+						<webInfIncludeJarPattern>^$</webInfIncludeJarPattern>
+						<containerIncludeJarPattern>^$</containerIncludeJarPattern>
+					</webAppConfig>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
-					<stopKey>foo</stopKey>
-					<stopPort>9999</stopPort>
 				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<scanIntervalSeconds>0</scanIntervalSeconds>
-							<daemon>true</daemon>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<!-- Compile java -->
 			<plugin>
