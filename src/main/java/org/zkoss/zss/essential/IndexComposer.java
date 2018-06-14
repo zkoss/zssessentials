@@ -44,19 +44,19 @@ public class IndexComposer extends SelectorComposer<Component> {
 		});
 	    for (File folder : folders){
 	    	files = folder.listFiles(new ZulFileFilter());
-	    	appendPageLinks(folder.getPath().substring(webRootRealPath.length()), files);
+	    	appendPageLinks(folder.getPath().substring(webRootRealPath.length()) + File.separator, files);
 	    }
 	}
 	
-	private void appendPageLinks(String path, File[] files) {
-		if (!path.equals("/")){
-			Label title = new Label(path);
+	private void appendPageLinks(String folderPath, File[] files) {
+		if (!folderPath.equals("/")){
+			Label title = new Label(folderPath);
 			title.setSclass("title");
 			linkArea.appendChild(title);
 		}
 		for (File zulFile : files){
 			A link = new A(zulFile.getName());
-			link.setHref(path+"/"+zulFile.getName());
+			link.setHref(folderPath + zulFile.getName());
 			linkArea.appendChild(link);
 		}
 	}
