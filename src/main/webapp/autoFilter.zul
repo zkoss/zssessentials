@@ -43,5 +43,13 @@
 			</vlayout>
 		</hlayout>
 	</window>
+	<style>
+		/* remove dash borders of the auto filter */
+		/*
+		[class*="af"]:after {
+			border: initial !important;
+		}
+		*/
+	</style>
 </zk>
 
