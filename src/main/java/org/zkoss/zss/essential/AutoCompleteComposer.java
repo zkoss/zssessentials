@@ -3,8 +3,8 @@ package org.zkoss.zss.essential;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.*;
-import org.zkoss.zss.api.*;
-import org.zkoss.zss.api.Range.AutoFillType;
+import org.zkoss.zss.api.Ranges;
+import org.zkoss.zss.essential.advanced.SpreadsheetCellPopup;
 import org.zkoss.zss.ui.Spreadsheet;
 import org.zkoss.zss.ui.event.StartEditingEvent;
 import org.zkoss.zul.*;
@@ -15,13 +15,12 @@ import java.util.*;
  * @author Hawk
  * 
  */
-@SuppressWarnings("serial")
 public class AutoCompleteComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox box;
 	@Wire
-	private Popup inputPopup;
+	private SpreadsheetCellPopup inputPopup;
 	@Wire
 	private Spreadsheet ss;
 
@@ -38,7 +37,8 @@ public class AutoCompleteComposer extends SelectorComposer<Component> {
 	public void showInputPopup(StartEditingEvent event) {
 		if (event.getColumn() == 0) {
 			event.cancel();
-			inputPopup.open(ss, "at_pointer");
+			inputPopup.openAtCell(ss, event.getRow(), event.getColumn(), "overlap");
+			box.setValue(event.getClientValue().toString());
 			box.setFocus(true);
 		}
 	}
