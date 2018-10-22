@@ -1,0 +1,11 @@
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+    <!--https://www.eclipse.org/jetty/documentation/9.4.x/jetty-maven-plugin.html-->
+    <Call name="setAttribute">for
+        <Arg>org.eclipse.jetty.server.Request.maxFormContentSize</Arg>
+        <Arg>5000000</Arg>
+    </Call>
+    <Call name="setAttribute">for
+        <Arg>org.eclipse.jetty.server.Request.maxFormKeys</Arg>
+        <Arg>5000000</Arg>
+    </Call>
+</Configure>
