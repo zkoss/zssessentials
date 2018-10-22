@@ -34,9 +34,9 @@ public class PerformanceComposer extends SelectorComposer<Component> {
 	private Spreadsheet ss;
 	
 	private static final int COLUMN_SIZE = 20;
-	private static final int ROW_SIZE = 100;
+	private static final int ROW_SIZE = 16000;
 	
-	@Listen("onClick = button[label='Fill with autorefresh']")
+	@Listen("onClick = button[label='Fill with autorefresh=true']")
 	public void load(Event e){
 		Events.echoEvent("onLoadDataAutoRefresh", ss, null);
 		Clients.showBusy("populating");
@@ -48,7 +48,7 @@ public class PerformanceComposer extends SelectorComposer<Component> {
 		Clients.clearBusy();
 	}
 	
-	@Listen("onClick = button[label='Fill without autorefresh']")
+	@Listen("onClick = button[label='Fill with autorefresh=false']")
 	public void loadWithAutoRefresh(Event e){
 		Events.echoEvent("onLoadData", ss, null);
 		Clients.showBusy("populating");
@@ -63,12 +63,12 @@ public class PerformanceComposer extends SelectorComposer<Component> {
 	private void loadData() {
 		Sheet sheet = ss.getSelectedSheet();
 		for (int column  = 0 ; column < COLUMN_SIZE ; column++){
-			for (int row = 0 ; row < ROW_SIZE ; row++ ){
+			for (int row = 20 ; row < ROW_SIZE ; row++ ){
 				Range range = Ranges.range(sheet, row, column);
 				range.setAutoRefresh(false);
 				range.getCellData().setEditText(row+", "+column);
-				CellOperationUtil.applyFontColor(range, "#0099FF");
-				CellOperationUtil.applyAlignment(range, Alignment.CENTER);
+//				CellOperationUtil.applyFontColor(range, "#0099FF");
+//				CellOperationUtil.applyAlignment(range, Alignment.CENTER);
 			}
 		}
 		Ranges.range(ss.getSelectedSheet(), 0, 0, ROW_SIZE, COLUMN_SIZE).notifyChange();
