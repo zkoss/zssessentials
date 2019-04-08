@@ -17,7 +17,7 @@ import org.zkoss.zss.ui.Spreadsheet;
  *
  */
 @SuppressWarnings("serial")
-public class MyComposer extends SelectorComposer<Component> {
+public class ImporterComposer extends SelectorComposer<Component> {
 
 	@Wire
 	Spreadsheet ss;
