@@ -6,7 +6,6 @@
 	<version>3.9.4-Eval</version>
 	<properties>
 		<zk.version>8.0.5-Eval</zk.version>
-		<commons-io>1.3.1</commons-io>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-${project.version}-${maven.build.timestamp}</packname>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,22 +47,23 @@ How to release the project, run maven:
 		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
+ 		<!-- ZSS EE dependencies-->
 		<dependency>
 			<groupId>org.zkoss.zss</groupId>
 			<artifactId>zssex</artifactId>
 			<version>${project.version}</version>
-		</dependency>	
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zss</groupId>
+			<artifactId>zsspdf</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zkplus</artifactId>
 			<version>${zk.version}</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io}</version>
-		</dependency>
+		<!--	others	-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -73,13 +73,6 @@ How to release the project, run maven:
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>2.2.2</version>
-		</dependency>
-
- 		<!-- ZSS EE dependencies-->		 
-		<dependency>
-			<groupId>org.zkoss.zss</groupId>
-			<artifactId>zsspdf</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -115,12 +108,6 @@ How to release the project, run maven:
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
-			</plugin>
-			<!-- Build war -->
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<groupId>org.apache.maven.plugins</groupId>
-				<version>2.1.1</version>
 			</plugin>
 			<!-- Pack zips -->
 			<plugin>
