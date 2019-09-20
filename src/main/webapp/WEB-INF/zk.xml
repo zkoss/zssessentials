@@ -16,4 +16,10 @@
 	<!--<listener>-->
 		<!--<listener-class>org.zkoss.zss.essential.ZssLocaleExecutionInit</listener-class>-->
 	<!--</listener>-->
+	<!-- required for ZK 8.5.0 or above
+	<library-property>
+		<name>org.zkoss.theme.preferred</name>
+		<value>breeze</value>
+	</library-property>
+	-->
 </zk>
