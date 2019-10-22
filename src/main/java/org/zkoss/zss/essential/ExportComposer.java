@@ -29,7 +29,7 @@ public class ExportComposer extends SelectorComposer<Component> {
 	private Spreadsheet ss;
 	
 	
-	@Listen("onClick = #exportExcel")
+	@Listen("onClick = #exportExcel; onExport=#ss")
 	public void doExport() throws IOException{
 		Exporter exporter = Exporters.getExporter();
 		Book book = ss.getBook();
