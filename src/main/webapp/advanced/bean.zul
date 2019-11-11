@@ -4,7 +4,7 @@
 		<hlayout hflex="1" vflex="1">
 			<spreadsheet id="ss" src="/WEB-INF/books/bean.xlsx" maxrows="200" maxcolumns="40"
 				showFormulabar="true" showContextMenu="true" showToolbar="true" showSheetbar="true" 
-				hflex="1" vflex="1" width="100%" >
+				hflex="1" vflex="1" >
 			</spreadsheet>
 			<groupbox width="250px">
 				<caption label="Update Report" />
