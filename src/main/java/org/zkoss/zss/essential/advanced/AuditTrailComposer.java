@@ -5,7 +5,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.*;
 import org.zkoss.zss.api.Ranges;
 import org.zkoss.zss.ui.Spreadsheet;
-import org.zkoss.zss.ui.event.CellMouseEvent;
+import org.zkoss.zss.ui.event.*;
 import org.zkoss.zul.Popup;
 
 import java.util.*;
@@ -20,12 +20,11 @@ public class AuditTrailComposer extends SelectorComposer<Component> {
 	@Wire
 	private Spreadsheet ss;
 
-	@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		super.doAfterCompose(comp);
-
+	@Listen(Events.ON_AFTER_UNDOABLE_MANAGER_ACTION + "= #ss")
+	public void record(UndoableActionManagerEvent event){
+		//combine a user info with an action as an audit trail
+		System.out.println(event.getAction() + "," + event.getType());
 	}
-
 }
 
 
