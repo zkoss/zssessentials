@@ -71,6 +71,16 @@ How to release the project, run maven:
 			<artifactId>breeze</artifactId>
 			<version>${zk.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.zkoss.theme</groupId>
+			<artifactId>silvertail</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.theme</groupId>
+			<artifactId>sapphire</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
 		-->
 		<!--	others	-->
 		<dependency>
