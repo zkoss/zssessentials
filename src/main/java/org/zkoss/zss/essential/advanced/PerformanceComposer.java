@@ -67,8 +67,8 @@ public class PerformanceComposer extends SelectorComposer<Component> {
 				Range range = Ranges.range(sheet, row, column);
 				range.setAutoRefresh(false);
 				range.getCellData().setEditText(row+", "+column);
-//				CellOperationUtil.applyFontColor(range, "#0099FF");
-//				CellOperationUtil.applyAlignment(range, Alignment.CENTER);
+				CellOperationUtil.applyFontColor(range, "#0099FF");
+				CellOperationUtil.applyAlignment(range, Alignment.CENTER);
 			}
 		}
 		Ranges.range(ss.getSelectedSheet(), 0, 0, ROW_SIZE, COLUMN_SIZE).notifyChange();
